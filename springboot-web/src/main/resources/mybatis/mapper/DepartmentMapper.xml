@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.study.mapper.DepartmentMapper">
+
+    <insert id="addDepartment" parameterType="com.study.pojo.Department" useGeneratedKeys="true" keyProperty="id">
+        insert into department(departmentName)
+        values (#{departmentName})
+
+    </insert>
+
+    <select id="getDepartments" resultType="com.study.pojo.Department">
+        select * from department
+    </select>
+
+    <select id="getDepartment" resultType="com.study.pojo.Department">
+        select * from department where id = #{id}
+    </select>
+
+    <delete id="delDepartment" parameterType="int">
+        delete from department where id=#{id}
+    </delete>
+
+</mapper>
