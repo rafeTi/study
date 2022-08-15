@@ -3,6 +3,7 @@ package com.study.controller;
 import com.study.mapper.AdminMapper;
 import com.study.pojo.Admin;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
@@ -22,6 +23,7 @@ public class LoginController {
             @RequestParam("username") String username,
             @RequestParam("password") String password,
             Model model, HttpSession session){
+
         Admin admin=adminMapper.selectByPrimaryKey(1);
         if(StringUtils.hasLength(username)&&admin.getName().equals(username)&&admin.getPwd().equals(password)){
             session.setAttribute("loginUser",username);

@@ -46,6 +46,28 @@ public class EmployeeController {
         return "emp/list";
     }
 
+    @RequestMapping("/empsUser")
+    public String listUer(Model model){
+        Department department;
+        List<Map<String, Object>> list = employeeMapper.getAll();
+        List<Employee> employees=new ArrayList<>();
+        for (Map<String, Object> map : list) {
+            Employee employee=new Employee();
+            employee.setId((Integer) map.get("id"));
+            employee.setLastName((String) map.get("lastName"));
+            employee.setGender((Integer) map.get("gender"));
+            employee.setEmail((String) map.get("email"));
+            employee.setBirth((Date) map.get("birth"));
+            department = departmentMapper.getDepartment((Integer) map.get("departmentId"));
+            employee.setDepartment(department);
+            employees.add(employee);
+        }
+
+
+        model.addAttribute("emps",employees);
+        return "emp/list";
+    }
+
     @GetMapping("/emp")
     public String toAddPage(Model model){
         //查出所有部门的信息
@@ -64,7 +86,7 @@ public class EmployeeController {
         map.put("birth",employee.getBirth());
         map.put("departmentId",employee.getDepartment().getId());
         employeeMapper.addEmployee(map);//调用底层业务方法保存员工信息
-        return "redirect:/emps";
+        return "redirect:/empsUser";
     }
 
     @GetMapping("/emp/{id}")
@@ -103,12 +125,12 @@ public class EmployeeController {
         map.put("birth",employee.getBirth());
         map.put("departmentId",employee.getDepartment().getId());
         employeeMapper.updateEmployee(map);
-        return "redirect:/emps";
+        return "redirect:/empsUser";
     }
 
     @GetMapping("/delemp/{id}")
     public String deleteEmp(@PathVariable("id") Integer id){
         employeeMapper.deleteEmployee(id);
-        return "redirect:/emps";
+        return "redirect:/empsUser";
     }
 }
